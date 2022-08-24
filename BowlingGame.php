@@ -3,10 +3,11 @@
 class BowlingGame
 {
 
-    const POINTS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14, self::MISS, self::SPARE, self::STRIKE];
+    const AUTRE_POINTS = [self::MISS, self::SPARE, self::STRIKE];
     const STRIKE = 'X';
     const SPARE  = '/';
     const MISS   = '-';
+    const MAX_POINT = 15;
 
     public static function lanceFrame()
     {
@@ -23,9 +24,121 @@ class BowlingGame
 
     public static function testUnit()
     {
-        $asingleFrame = [1,'/'] ;
-        self::countPoints($asingleFrame, 1);
+            $num = self::generateRandomPoint();
+            var_dump($num);
+            die;
+        // $asingleFrame = [1,'/'] ;
+        // self::countPoints($asingleFrame, 1);
     }
+
+      /**
+     * generation points 
+     *
+     * @return void
+     */
+    public static function generatePoint()
+    {
+        $index = array_rand(self::AUTRE_POINTS, 1);
+
+        return self::AUTRE_POINTS[$index];
+
+    }
+
+    public static function generateRandomPoint($maxQuillesRestant = 15, $compteEssai = 0, $accumulationPointParFrame = [])
+    {
+       $compteEssai ++;
+       $lanceAleatoire = 1;
+
+     
+
+        /** si lanceAleatoire 0 jouer entre le STRIKE ou SPARE ou NULL */
+        if ($lanceAleatoire == 1) {
+                /** si commencement jeu;  */
+                if ($maxQuillesRestant > 0 && $compteEssai <=3) {
+
+                    $quilleObtenu = mt_rand(0,$maxQuillesRestant);
+    
+                    /** si quille 0 ou STRIKE ou spare */
+                    if ($quilleObtenu == 15 && $compteEssai == 1) {
+    
+                        $accumulationPointParFrame[] = self::STRIKE; //'X';
+        
+                        return $accumulationPointParFrame;
+                    } else if (($quilleObtenu == $maxQuillesRestant && $compteEssai == 2) || ($quilleObtenu == $maxQuillesRestant && $compteEssai == 3)) {
+        
+                        $accumulationPointParFrame[] = self::SPARE;
+        
+                        return $accumulationPointParFrame;
+                    } else if ($quilleObtenu == 0) {
+                        $accumulationPointParFrame[] = self::MISS;
+    
+                       // relancer la partie
+                        return self::generateRandomPoint($maxQuillesRestant, $compteEssai, $accumulationPointParFrame);
+                    } else {
+    
+                        $quillesRestant = $maxQuillesRestant - $quilleObtenu;
+            
+                        if ($compteEssai <= 3 ){
+                           
+                            $accumulationPointParFrame[] = $quilleObtenu;
+
+                            return self::generateRandomPoint($quillesRestant, $compteEssai, $accumulationPointParFrame);
+                        }
+                        
+                        return $accumulationPointParFrame;
+    
+                    }
+    
+    
+            
+                   
+                  
+                }
+
+
+        }
+
+        return $accumulationPointParFrame;
+
+
+        //     $quilleObtenu = self::generatePoint();
+           
+        //     if ($quilleObtenu == self::STRIKE && $compteEssai == 1) {
+
+        //         $accumulationPointParFrame[] = self::STRIKE; //'X';
+
+        //         return $accumulationPointParFrame;
+        //     } else if (($quilleObtenu == self::SPARE && $compteEssai == 2) || ($quilleObtenu == self::SPARE && $compteEssai == 3)) {
+
+        //         $accumulationPointParFrame[] = self::SPARE;
+
+        //         return $accumulationPointParFrame;
+        //     } else if ($quilleObtenu == self::MISS) {
+        //         $accumulationPointParFrame[] = self::MISS;
+               
+        //         $quillesRestant = self::generateRandomPoint($maxQuillesRestant, $compteEssai - 1, $accumulationPointParFrame);
+        //     } else {
+        //         /** relancer la partie sans prendre la score*/
+
+        //         $quillesRestant = self::generateRandomPoint($maxQuillesRestant, $compteEssai - 1, $accumulationPointParFrame);
+        //     }
+
+            
+        // } else {
+
+
+
+
+
+          
+           
+
+      
+
+    }
+      
+
+  
 
     public static function generateScore(array $_accumulationFrames)
     {
@@ -102,19 +215,10 @@ class BowlingGame
 
        return $allPointsInOneLancer;
     }
+
+  
    
-    /**
-     * generation points 
-     *
-     * @return void
-     */
-    public static function generatePoint()
-    {
-        $index = array_rand(self::POINTS, 1);
-
-        return self::POINTS[$index];
-
-    }
+  
 }
 
 BowlingGame::testUnit();
