@@ -6,27 +6,62 @@ class CopyCharacter
     const VALUE_ONE   = 1;
     const VALUE_ZERO  = 0;
 
-    public static function makeCopyStr($_params)
+
+    /**
+     * copy the str 
+     *
+     * @param [type] $_params
+     * @return void
+     */
+    public static function makeCopyStr(string $_params) :string
     {
         $aParams = str_split($_params);
-        CopyCharacter::searchMinIndex($aParams);
+       
+        $resultCopied = CopyCharacter::searchMinIndex($aParams);
+
+        var_dump($resultCopied);
+
+        return $resultCopied;
     }
 
-    public static function searchMinIndex(array $aParams, $count = 0)
+    /**
+     * take the index accordig to the length of string input
+     *
+     * @param array $aParams
+     * @param integer $count
+     * @return string
+     */
+    public static function searchMinIndex(array $aParams, $count = 0) :string
     {
         $tmp_two_value = [];
-        
-        if( is_array($aParams) && count($aParams) > 2 ){
+        $tmp_results = [];
+
+        if( is_array($aParams) && count($aParams) >= 2 ){
+
 
         $tmp_two_value = array_push($tmp_two_value, $aParams[self::VALUE_ZERO]).
         $tmp_two_value = array_push($tmp_two_value, $aParams[self::VALUE_ONE]).
 
-        CopyCharacter::copyCHaracters($tmp_two_value);
+        $tmp_results = CopyCharacter::copyCHaracters($tmp_two_value);
 
-        } 
+        } elseif( count($aParams) <=  1) {
+
+        $tmp_results =  implode('', $aParams);
+
+        }
+
+        return $tmp_results;
     }
 
-    public static function copyCHaracters(array $aValues) {
+
+    /**
+     * make copy operation
+     *
+     * @param array $aValues
+     * @return string
+     */
+    public static function copyCHaracters(array $aValues) :string
+    {
         $tmp_result_copy = [];
 
         for($numRelatedCopy = 0; $numRelatedCopy < 4; $numRelatedCopy++){
@@ -37,8 +72,9 @@ class CopyCharacter
         }
 
         $tmp_result_copy = implode('', $tmp_result_copy);
-        return var_dump($tmp_result_copy); 
+
+        return ($tmp_result_copy); 
     }
 }
 
-CopyCharacter::makeCopyStr("program");
+CopyCharacter::makeCopyStr("J S");

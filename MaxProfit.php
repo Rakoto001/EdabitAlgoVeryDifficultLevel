@@ -143,4 +143,4 @@ class MaxProfit{
 }
 
 // MaxProfit::getMaxProfit(['fds', 'r', 't']);
-MaxProfit::getMaxProfit([7,6,4,3,2]);
+MaxProfit::getMaxProfit([7,1,5,3,6,4]);
