@@ -25,14 +25,16 @@ class OperationsToEmptyArray
     //     Si le premier élément a la plus petite valeur, supprimez-le
     // Sinon, placez le premier élément à la fin du tableau.
 
+ 
     /**
      * perform the following operations until the array is empty
      *
      * @param array $aParametters
-     * @return void
+     * @return integer
      */
-    public function makeEmptyArray(array $aParametters)
+    public function makeEmptyArray(array $aParametters) :int
     {
+        $result = null;
 
         $content = $this->validateArrayContent($aParametters);
 
@@ -60,13 +62,16 @@ class OperationsToEmptyArray
                 return $this->makeEmptyArray(str_split($aParametters));
             }
 
-            var_dump($this->necessaryOperation);
-            return $this->necessaryOperation;
-
+            $result = $this->necessaryOperation;
+            
         } else {
-
-            return false;
+            
+            $result = false;
         }
+
+        var_dump($result);
+
+        return $result;
     }
 
     /**
@@ -100,4 +105,4 @@ class OperationsToEmptyArray
 }
 
 $operation = new OperationsToEmptyArray();
-$operation->makeEmptyArray([1, 2, 's', "8"]);
+$operation->makeEmptyArray([1, 2, '7', "8"]);
