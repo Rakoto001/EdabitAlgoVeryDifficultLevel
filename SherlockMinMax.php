@@ -1,5 +1,6 @@
 <?php
 
+/** link:   https://www.hackerrank.com/challenges/sherlock-and-minimax/problem?isFullScreen=true */
 class SherlockMinMax
 {
 
@@ -33,7 +34,7 @@ class SherlockMinMax
         echo ('final result => ');
 
         var_dump( $output);
-        
+
 
         return $output;
 
