@@ -1,9 +1,10 @@
 <?php
 
+// LINK https://www.hackerrank.com/challenges/abbr/problem?isFullScreen=true
 class Abbreviation
 {
     private array $aSameWords;
-    private int $tmp_index_beta; 
+    private int $tmp_index_alpha; 
 
     public function __construct() {
         $this->tmp_index_alpha = 0;
