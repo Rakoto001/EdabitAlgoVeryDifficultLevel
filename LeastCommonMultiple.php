@@ -37,11 +37,30 @@ class LeastCommonMultiple
     }
 
 
+
+    public function searchLongestFactorTree(array $datasFactorTree)
+    {
+        $tmp_asssoc_key_cout = [];
+
+        foreach ($datasFactorTree as $key => $tree) {
+            $tmp_asssoc_key_cout [] = count($tree);
+
+        }
+
+        var_dump(max($tmp_asssoc_key_cout));
+        die;
+    }
+
+
     public function searchLeastCommonMultiple(array $datasFactorTree)
     {
 
-        $datasFactorTree = [[3,5,5, 7], [2, 3, 3,5,5]];
+        // $datasFactorTree = [[3,5,5, 7], [2, 3, 3,5,5]];
+        $results = null;
+
         var_dump($datasFactorTree);
+        $this->searchLongestFactorTree($datasFactorTree);
+        die;
 
         if (count($datasFactorTree) > 0) {
 
@@ -80,6 +99,11 @@ class LeastCommonMultiple
             var_dump($dataFactorToCompare);
             var_dump($referenceFactorTree);
             var_dump($this->commonValue);
+
+           $mergedFactorTree =  array_merge($this->commonValue, $dataFactorToCompare, $referenceFactorTree);
+           
+           $results = array_product($mergedFactorTree);
+           var_dump($results);
             die;
         }
         
