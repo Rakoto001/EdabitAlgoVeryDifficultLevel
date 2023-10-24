@@ -41,7 +41,6 @@ class LeastCommonMultiple
     {
 
         $datasFactorTree = [[3,5,5, 7], [2, 3, 3,5,5]];
-        var_dump($datasFactorTree);
 
         if (count($datasFactorTree) > 0) {
 
