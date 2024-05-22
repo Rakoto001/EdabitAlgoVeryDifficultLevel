@@ -8,53 +8,123 @@ class AshtonString
 {
 
     const ZERO_INDEX = 0;
-    private $tmp_diff_restults;
+    private array  $tmp_restults;
+    private array  $tmp_accumulation_lexicographical;
 
     public function __construct() {
-        $this->tmp_diff_restults = [];
+        $this->tmp_restults = [];
+        $this->tmp_accumulation_lexicographical = [];
     }
 
     /**
-     * Arrange all the distinct substrings of a given string 
+     * Arrange all the distinct substrings of a given string - recursive
      * in lexicographical order and concatenate them
      *
      * @param string $inputChar
      * @param integer $responseIndex
      * @return string
      */
-    public function makeAshtonString(string $inputChar, int $responseIndex) : string
+    public function makeAshtonString(string $inputChar, int $responseIndex) 
     {
-        $tmp_diff_restults = [];
-        $aInputChars = str_split($inputChar); 
+        $aInputChar = str_split($inputChar);
+        $sequencesLexicographical = [];
+        $newInputChar = [];
 
-        for ($curentIndex = 0; $curentIndex < count($aInputChars); $curentIndex ++) {
+        // recherche min par ordre alphabetique en supposant qu'il  n'ya pas de doublons selon les spécifiacitons
+        $inputChar = min($aInputChar);
+        $indexAlphabetMin = array_search($inputChar, $aInputChar);
+        $aAllCharacterAfterCurrentLexicographical = array_slice($aInputChar, $indexAlphabetMin);
+        $sequencesLexicographical = $this->arrangeSequenceLexicographical($aAllCharacterAfterCurrentLexicographical);
+        $this->tmp_restults[]  = $sequencesLexicographical;
+        // dback
+    //     echo '<pre>';
+    //     var_dump($sequencesLexicographical);
+    //    echo '</pre>';
+    //    die;
 
-             $partSlicedArray = (array_slice($aInputChars, $curentIndex));
-             $this->tmp_diff_restults[] = implode('', array_diff($aInputChars, $partSlicedArray));
 
+
+        $newInputChar = $this->eliminateMinIndexFromInputChar($aInputChar,  $indexAlphabetMin);
+     
+        if (count($newInputChar) > 0 ) {
+            $newInputChar = implode('', $newInputChar);
+        //     echo '<pre>';
+        //     var_dump($newInputChar);
+        //    echo '</pre>';
+        //    die;
+            return $this->makeAshtonString($newInputChar,  $responseIndex);
         }
-        
-        // elmination de l'index qui est null suite a l'opération de slicing
-        $this->tmp_diff_restults = (array_filter($this->tmp_diff_restults, fn($contextChar) =>  $contextChar != null ));
-        // rajout en fin de l'array la value input
-        array_push($this->tmp_diff_restults, $inputChar);
 
-        unset($aInputChars[self::ZERO_INDEX]);
+      
+        echo '<pre>';
+        var_dump(array_values($this->tmp_restults) );
+       echo '</pre>';
         
-        if (count($aInputChars) > 0) {
-            $inputChar = implode('', $aInputChars);
-            
-            return $this->makeAshtonString($inputChar, $responseIndex);
+     
+
+
+        
+    }
+
+    /**
+     * élimination de l'index min de la séquence des inputs
+     *
+     * @param array $aInputChar
+     * @param integer $indexAlphabetMin
+     * @return void
+     */
+    function eliminateMinIndexFromInputChar(array $aInputChar,  int $indexAlphabetMin)  :array
+    {
+      
+        if (count($aInputChar)> 0){
+            unset($aInputChar[$indexAlphabetMin]);
+          
         }
-        
-        var_dump(implode('', $this->tmp_diff_restults)); //final results
 
-        return implode('', $this->tmp_diff_restults);
+      return $aInputChar;
+    }
 
-        
+
+    /**
+     * arrangement des séquences
+     *
+     * @param array $aAllCharacterAfterCurrentLexicographical
+     * @return void
+     */
+    public function arrangeSequenceLexicographical(array $aAllCharacterAfterCurrentLexicographical)
+    {
+        // var_dump($aAllCharacterAfterCurrentLexicographical);
+        $accumulation_lexicographical = [];
+        // initialisation de temp accumulation
+        $this->tmp_accumulation_lexicographical = [];
+
+        foreach ($aAllCharacterAfterCurrentLexicographical as $key => $value) {
+            if ($key == 0) {
+                $this->tmp_accumulation_lexicographical[] = $aAllCharacterAfterCurrentLexicographical[$key];
+                $accumulation_lexicographical[$key] = $aAllCharacterAfterCurrentLexicographical[$key];
+            } elseif ($key > 0) {
+                $this->tmp_accumulation_lexicographical[] = array_push($this->tmp_accumulation_lexicographical,$aAllCharacterAfterCurrentLexicographical[$key] ) ;
+                $accumulation_lexicographical[$key] = $this->tmp_accumulation_lexicographical ;
+             
+              
+            }
+        }
+
+    //     var_dump($aAllCharacterAfterCurrentLexicographical);
+    //     echo '<pre>';
+    //     var_dump($this->tmp_accumulation_lexicographical);
+    //    echo '</pre>';
+    
+        // initialisation de temp accumulation
+        $this->tmp_accumulation_lexicographical = [];
+    //     echo '<pre>';
+    //     var_dump($this->tmp_accumulation_lexicographical);
+    //    echo '</pre>';
+
+        return $accumulation_lexicographical;
     }
 }
 
 
 $oShort = new AshtonString();
-$oShort->makeAshtonString('abcd', 5);
+$oShort->makeAshtonString('dback', 5);
