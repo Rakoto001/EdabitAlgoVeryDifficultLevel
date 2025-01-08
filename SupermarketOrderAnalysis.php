@@ -8,21 +8,40 @@ class SupermarketOrderAnalysis {
     public function CommandAnalysis(array $products, $orders)
     {
         $productsAssociatedToNumbers = [];
-        $totalSalesOfEachProduct = [];
+        $totalSalesOfEachProduct = [];  
         
         foreach ($products as $product => $priceAndStock) {
             foreach ($orders as $client => $command) {
                 if (isset($command[$product])) {
+                    // calcul du bestSeller
                     $productsAssociatedToNumbers = [$product => ($command[$product])];  
                     $this->occurenceCounter = $productsAssociatedToNumbers[$product] + $this->occurenceCounter;
+
+                    // calcul du chiffre d'affaire
+                    $test [] = $command[$product] * $priceAndStock['prix'];
+                    // var_dump($product);
+                    // echo '<br>';
+                    // var_dump($command[$product]);
+                    // echo '<br>';
+
+                    // var_dump($priceAndStock['prix']);
+                    // echo '<br>';
+
+                   
                 }
             }
+
+            
             $this->tmpAssocProductQuantity = [$product => $this->occurenceCounter];
             $totalSalesOfEachProduct = array_merge($totalSalesOfEachProduct, $this->tmpAssocProductQuantity);
             // initialise counter
             $this->occurenceCounter = 0;
 
         }
+        var_dump(array_sum($test));
+        echo '<br>';
+        die;
+
       
         $bestSellingProduct = max($totalSalesOfEachProduct);
         // Trouver les clés associées à cette valeur $bestSellingProduct
